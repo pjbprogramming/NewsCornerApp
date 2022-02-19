@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import NewsItem from './NewsItem'
 import Spinner from './Spinner'
 import PropTypes from 'prop-types'
+import InfiniteScroll from "react-infinite-scroll-component";
 export default class News extends Component {
   articles=[];
   
@@ -24,8 +25,9 @@ export default class News extends Component {
      
       articles :this.articles,
       //articles:[] //same as aboveline but no need to declare above constructor
-      loading: false,
+      loading: true, // Used for showing Spinner
       page:1,
+      totalResults:0
       
       }
   }
@@ -35,19 +37,21 @@ export default class News extends Component {
   }
 
   async updateNews(){
-    
+    this.props.setTopBarProgress(10);
     const url=`https://newsapi.org/v2/top-headlines?country=${this.props.myPresentCountry}&category=${this.props.category}&apiKey=${this.props.apikey}&page=${this.state.page}&pagesize=${this.props.pageSize}`;
-    this.setState({loading:true});
+    this.setState({loading:true}); // set to true to show the spinner initially on page load
+    this.props.setTopBarProgress(30);
     let data1= await fetch(url);                  // (data1);
+    this.props.setTopBarProgress(50);
     let parseData=await  data1.json();           //console.log(parseData);
-    
+    this.props.setTopBarProgress(70);
     this.setState({
       articles: parseData.articles,
       totalResults:parseData.totalResults,
-      loading:false,
+      loading:false, 
       page:this.state.page
     });
-    
+     this.props.setTopBarProgress(100);
      document.title=`News Corner -  ${this.capitalize(this.props.category)}`
   }
   
@@ -119,6 +123,21 @@ else if(val==='ch'){return "Switzerland"}
 else{return "Unknown Contry"}
 
 }
+
+fetchMoreData = async() => {
+  this.setState({page:this.state.page+1})
+  const url=`https://newsapi.org/v2/top-headlines?country=${this.props.myPresentCountry}&category=${this.props.category}&apiKey=${this.props.apikey}&page=${this.state.page}&pagesize=${this.props.pageSize}`;
+    //this.setState({loading:true});
+    let data1= await fetch(url);                  // (data1);
+    let parseData=await  data1.json();           //console.log(parseData);
+    
+    this.setState({
+      articles: this.state.articles.concat(parseData.articles),
+      totalResults:parseData.totalResults,
+      loading:false,
+      page:this.state.page
+    });
+};
   render() {
     return (
         <><div>
@@ -128,7 +147,14 @@ else{return "Unknown Contry"}
   </div>
               
         </div>
-        <div className='container ' style={{height:'10'}}>{this.state.loading && <Spinner/>}</div>
+   {/*    <div className='container ' style={{height:'10'}}>{this.state.loading && <Spinner/>}</div>  */}
+
+      <InfiniteScroll
+          dataLength={this.state.articles.length}
+          next={this.fetchMoreData}
+          hasMore={this.state.articles.length!==this.state.totalResults}
+          loader={<Spinner/>}
+        >
        
        <div className='row my-1 mx-1'>
      {!this.state.loading && this.state.articles.map((element,i,arr)=>{ 
@@ -143,11 +169,15 @@ return <div className='col-md-3 my-1' key={element.url} >
       })}
           
         </div>
-     <div className='container d-flex justify-content-between my-2'>
+   
+   
+        </InfiniteScroll>
+   
+    {/*  <div className='container d-flex justify-content-between my-2'>
      <button type="button"  disabled={this.state.page<=1} className="btn btn-lg btn-dark" onClick={this.handlePrev}>&larr;Previous</button>
      <button type="button" className="btn btn-lg btn-dark">Page {this.state.page}</button>
      <button type="button" disabled={this.state.page>=Math.ceil(this.state.totalResults)/this.props.pageSize}  className="btn btn-lg btn-dark" onClick={this.handleNext}>Next &rarr;</button>
-     </div>
+     </div> */}
      </div>
      </>
     )

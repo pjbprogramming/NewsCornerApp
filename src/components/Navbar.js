@@ -16,7 +16,7 @@ render() {
  //console.log('From Navbar component ---- '+this.props.myPresentCountry);
   
   return ( 
-        <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
+        <nav className="navbar navbar-expand-lg navbar-light bg-light">
         
         <div className="container-fluid">
           <Link className="navbar-brand" to="#">News Corner</Link>
