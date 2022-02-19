@@ -8,13 +8,13 @@ export default class News extends Component {
   static defaultProps={
          category:'general',
          pageSize:8,
-         country:"in"
+         myPresentCountry:"in"
  }
 
  static propTypes={
   category:PropTypes.string,
   pageSize:PropTypes.number,
-  country:PropTypes.string
+  myPresentCountry:PropTypes.string
  }
 
   constructor() {
@@ -35,7 +35,8 @@ export default class News extends Component {
   }
 
   async updateNews(){
-    const url=`https://newsapi.org/v2/top-headlines?country=${this.props.country}&category=${this.props.category}&apiKey=${this.props.apikey}&page=${this.state.page}&pagesize=${this.props.pageSize}`;
+    
+    const url=`https://newsapi.org/v2/top-headlines?country=${this.props.myPresentCountry}&category=${this.props.category}&apiKey=${this.props.apikey}&page=${this.state.page}&pagesize=${this.props.pageSize}`;
     this.setState({loading:true});
     let data1= await fetch(url);                  //  console.log(data1);
     let parseData=await  data1.json();           //console.log(parseData);
@@ -46,6 +47,7 @@ export default class News extends Component {
       loading:false,
       page:this.state.page
     });
+    
      document.title=`News Corner -  ${this.capitalize(this.props.category)}`
   }
   
@@ -104,12 +106,25 @@ this.setState({loading:true});
 
 
 }
+
+chkCountry=(val)=>{
+if (val==='in'){return "India"}
+else if(val==='au'){return "Australia"}
+else if(val==='us'){return "US"}
+else if(val==='gb'){return "UK"}
+else if(val==='cn'){return "China"}
+else if(val==='ae'){return "UAE"}
+else if(val==='jp'){return "Japan"}
+else if(val==='ch'){return "Switzerland"}
+else{return "Unknown Contry"}
+
+}
   render() {
     return (
         <><div>
         <div className='coantainer ' style={{margin:'25px'}}>
-        <div class=" d-grid gap-2 col-6 mx-auto">
-  <button  class="btn btn-dark disabled" type="button"><h3 className='text-center'>News Corner : Top {this.capitalize(this.props.category)} Headlines</h3></button>
+        <div className=" d-grid gap-2 col-6 mx-auto">
+  <button  className="btn btn-dark disabled" type="button"><h3 className='text-center'>News Corner : Top <strong style={{color:'#dfed1c'}}> {this.capitalize(this.props.category)}</strong> Headlines <strong  style={{color:'#dfed1c'}}>({this.chkCountry(this.props.myPresentCountry)})</strong> </h3></button>
   </div>
               
         </div>

@@ -3,11 +3,21 @@ import { Link } from "react-router-dom";
 
 export default class Navbar extends Component {
   
-   
-  render() {
+  changeCountry=(e,val)=>{
     
-  return (
+    console.log('Event value is  '+e);
+    this.props.setmycntry(val);
+    
+  }
+
+  
+                      
+render() {
+  console.log('From Navbar component ---- '+this.props.myPresentCountry);
+  
+  return ( 
         <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
+        
         <div className="container-fluid">
           <Link className="navbar-brand" to="#">News Corner</Link>
           <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -16,20 +26,25 @@ export default class Navbar extends Component {
           <div className="collapse navbar-collapse" id="navbarSupportedContent">
             <ul className="navbar-nav me-auto mb-2 mb-lg-0">
               <li className="nav-item">
-                <Link className="nav-link active" aria-current="page" to="/" >Home</Link>
+                <Link className="nav-link active" aria-current="page" to="/home" >Home (IND)</Link>
               </li>
              
-{/* 
+
               <li className="nav-item dropdown">
                 <Link className="nav-link dropdown-toggle" to="/" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                   Counrty
                 </Link>
                 <ul className="dropdown-menu" aria-labelledby="navbarDropdown">
-                <li><Link className="dropdown-item" to="/" onClick={this.handleCountry('in').bind(this)}>India</Link></li>
-                  <li><Link className="dropdown-item" to="/" onClick={this.handleCountry('au').bind(this)}>Austalia</Link></li>
-                  <li><Link className="dropdown-item" to="/" onClick={this.handleCountry('us').bind(this)}> Us</Link></li>
+                 <li><Link className="dropdown-item" to='/chg1'onClick={(e) => this.changeCountry(e,'in') }>India</Link></li> 
+                <li><Link className="dropdown-item" to="/chg2" onClick={(e) => this.changeCountry(e,'au')}>Australia</Link></li>
+                <li><Link className="dropdown-item" to="/chg3" onClick={(e) => this.changeCountry(e,'us')}>US</Link></li>
+                <li><Link className="dropdown-item" to="/chg4" onClick={(e) => this.changeCountry(e,'gb')}>UK</Link></li>
+                <li><Link className="dropdown-item" to="/chg5" onClick={(e) => this.changeCountry(e,'cn')}>China</Link></li>
+                 <li><Link className="dropdown-item" to="/chg6" onClick={(e) => this.changeCountry(e,'ae')}>UAE</Link></li>
+                 <li><Link className="dropdown-item" to="/chg7" onClick={(e) => this.changeCountry(e,'jp')}>Japan</Link></li>
+                <li><Link className="dropdown-item" to="/chg8" onClick={(e) => this.changeCountry(e,'ch')}>Switzerland</Link></li>
                  </ul>
-              </li> */}
+              </li>
 
               <li className="nav-item dropdown">
                 <Link className="nav-link dropdown-toggle" to="/" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
