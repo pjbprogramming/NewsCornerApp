@@ -38,7 +38,7 @@ export default class News extends Component {
     
     const url=`https://newsapi.org/v2/top-headlines?country=${this.props.myPresentCountry}&category=${this.props.category}&apiKey=${this.props.apikey}&page=${this.state.page}&pagesize=${this.props.pageSize}`;
     this.setState({loading:true});
-    let data1= await fetch(url);                  //  console.log(data1);
+    let data1= await fetch(url);                  // (data1);
     let parseData=await  data1.json();           //console.log(parseData);
     
     this.setState({
@@ -66,14 +66,14 @@ export default class News extends Component {
         },
        
         (error) => {
-          console.log('The error is  ----- >< '+error);
+         ('The error is  ----- >< '+error);
         }
       )
   } */
  
   handleNext= async() =>{
   await this.setState({page:this.state.page+1}); // await is needed because page state must update before the updateNews function gets executed otherwise updateNews will run with same page number as before.---- Very very important 
-  console.log('The page no is '+this.state.page);
+ //('The page no is '+this.state.page);
   this.updateNews();
   }
   
@@ -95,7 +95,7 @@ let url=`https://newsapi.org/v2/top-headlines?country=${this.state.country}&cate
 
 this.setState({loading:true});
     let data1= await fetch(url);
-    console.log(data1);
+   (data1);
     let parseData=await  data1.json();
      this.setState({
       articles: parseData.articles,
@@ -132,7 +132,7 @@ else{return "Unknown Contry"}
        
        <div className='row my-1 mx-1'>
      {!this.state.loading && this.state.articles.map((element,i,arr)=>{ 
-       console.log(arr.length);
+     // (arr.length);
 return <div className='col-md-3 my-1' key={element.url} >
 
 

@@ -36,7 +36,7 @@ export default class App extends Component {
       <>
       <Navbar   apikey={this.apikey}  myPresentCountry={this.state.country}  setmycntry={this.setCountry} />
     
-     { console.log('From Appjs '+this.state.country)}
+     { //console.log('From Appjs '+this.state.country)}
     
       <Routes>
       
