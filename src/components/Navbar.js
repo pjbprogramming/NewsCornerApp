@@ -5,7 +5,7 @@ export default class Navbar extends Component {
   
   changeCountry=(e,val)=>{
     
-  // ('Event value is  '+e);
+  // console.log('Event value is  '+e);
     this.props.setmycntry(val);
     
   }
@@ -13,7 +13,7 @@ export default class Navbar extends Component {
   
                       
 render() {
- ('From Navbar component ---- '+this.props.myPresentCountry);
+ //console.log('From Navbar component ---- '+this.props.myPresentCountry);
   
   return ( 
         <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
