@@ -6,15 +6,15 @@ export default class NewsItem extends Component {
    // console.log('Constructor from newsitem');
   } */
   render() {
-    let {title ,description,imgurl,fullNewzUrl,author,time,source}=this.props;
+    let {title,description,imgurl,fullNewzUrl,author,time,source}=this.props;
 
     return (<>
         <div className="card" >
-        <span className="position-absolute top-0 translate-middle badge rounded-pill bg-danger"  style={{left:"87%",zIndex:1}}>
+        <span className="position-absolute top-0 translate-middle badge rounded-pill bg-danger"  style={{left:"15%",zIndex:4}}>
      
      {source}
    </span>
-        <img src={imgurl} className="card-img-top" alt="..."/>
+        <img src={imgurl?imgurl:"../altrnate_news.jpg"} className="card-img-top" alt="Loading..."/>
         <div className="card-body">
            
           <h5 className="card-title">{title}</h5>

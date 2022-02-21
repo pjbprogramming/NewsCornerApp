@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import NewsItem from './NewsItem'
 import Spinner from './Spinner'
+import FloatingBtn from './FloatingBtn'
 import PropTypes from 'prop-types'
 import InfiniteScroll from "react-infinite-scroll-component";
 export default class News extends Component {
@@ -27,14 +28,19 @@ export default class News extends Component {
       //articles:[] //same as aboveline but no need to declare above constructor
       loading: true, // Used for showing Spinner
       page:1,
-      totalResults:0
+      totalResults:0,
+      
       
       }
   }
 
+ 
  capitalize=(text)=>{
   return  text.charAt(0).toUpperCase()+text.slice(1);
   }
+setPg=()=>{
+ //
+}
 
   async updateNews(){
     this.props.setTopBarProgress(10);
@@ -130,17 +136,19 @@ fetchMoreData = async() => {
     //this.setState({loading:true});
     let data1= await fetch(url);                  // (data1);
     let parseData=await  data1.json();           //console.log(parseData);
-    
+   // this.props.setNextPage(true);
+   this.extraPage=true;
     this.setState({
       articles: this.state.articles.concat(parseData.articles),
       totalResults:parseData.totalResults,
       loading:false,
-      page:this.state.page
+      page:this.state.page,
+      extraPage:false
     });
 };
   render() {
     return (
-        <><div>
+        <>
         <div className='coantainer ' style={{margin:'25px'}}>
         <div className=" d-grid gap-2 col-6 mx-auto">
   <button  className="btn btn-dark disabled" type="button"><h3 className='text-center'>News Corner : Top <strong style={{color:'#dfed1c'}}> {this.capitalize(this.props.category)}</strong> Headlines <strong  style={{color:'#dfed1c'}}>({this.chkCountry(this.props.myPresentCountry)})</strong> </h3></button>
@@ -154,6 +162,8 @@ fetchMoreData = async() => {
           next={this.fetchMoreData}
           hasMore={this.state.articles.length!==this.state.totalResults}
           loader={<Spinner/>}
+          onScroll={this.setPg}
+          
         >
        
        <div className='row my-1 mx-1'>
@@ -169,16 +179,16 @@ return <div className='col-md-3 my-1' key={element.url} >
       })}
           
         </div>
-   
-   
+    
         </InfiniteScroll>
-   
+
+        {<FloatingBtn />}
     {/*  <div className='container d-flex justify-content-between my-2'>
      <button type="button"  disabled={this.state.page<=1} className="btn btn-lg btn-dark" onClick={this.handlePrev}>&larr;Previous</button>
      <button type="button" className="btn btn-lg btn-dark">Page {this.state.page}</button>
      <button type="button" disabled={this.state.page>=Math.ceil(this.state.totalResults)/this.props.pageSize}  className="btn btn-lg btn-dark" onClick={this.handleNext}>Next &rarr;</button>
      </div> */}
-     </div>
+   
      </>
     )
   }
